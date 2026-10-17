@@ -25,13 +25,14 @@ Tutti sotto `~/documents/it/software/github/mmussini/`.
 
 ## k8s_cluster — eseguire un ruolo Ansible sul cluster reale
 
-Va lanciato da `optimus` (192.168.77.66), l'unico host con rete verso
-192.168.122.x. Il vault password file **non va mai spostato** via
-scp/rsync: lo posiziona l'utente su optimus quando serve.
-**Comandi scritti per la vecchia macchina WSL, da rivalidare su Kali.**
+Si lancia direttamente dal repo: questa macchina **è** `optimus` (server
+Kali, 192.168.77.66) e il cluster k3s gira su una VM locale (192.168.122.141,
+rete `virbr0`). Inventory: `k8s_master` (VM) + `localhost` (optimus, che
+vuole `optimus_become_password` dal vault). Il vault password file lo
+posiziona l'utente; mai copiarlo né leggerlo. Validato 2026-10-18
+(`ansible all -m ping`).
 
 ```
-rsync -az --delete --exclude .git \
-  ~/documents/it/software/github/mmussini/k8s_cluster/k8s-ansible/ 192.168.77.66:~/k8s_cluster-ansible/
-ssh 192.168.77.66 "cd ~/k8s_cluster-ansible && ansible-playbook playbook.yml --tags <nome-ruolo> --vault-password-file='<path-vault-password-file-su-optimus>'"
+cd ~/documents/it/software/github/mmussini/k8s_cluster/k8s-ansible
+ansible-playbook playbook.yml --tags <nome-ruolo> --vault-password-file='<path-vault-password-file>'
 ```
