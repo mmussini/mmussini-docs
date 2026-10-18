@@ -11,6 +11,9 @@
    optimus (Docker, ZFS `tank/cnpg`, S3 solo su virbr0) + plugin Barman Cloud,
    snapshot ZFS giornalieri. Restore testato. Da verificare: dopo un reboot
    il container riparte (porta legata a virbr0, che nasce con libvirt).
+2. **k8s_cluster vault** — ripristinato (PR #5, 2026-10-18): la PR #4 lo aveva
+   ricreato con un'altra password, perdendo 5 chiavi (keycloak, cloudflare,
+   redisinsight). Ora 8 chiavi, playbook seaweedfs+cnpg_backup rilanciato OK.
 
 ## Repo
 
